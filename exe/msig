@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+
+# EXAMPLE:
+# method_doc_params = {
+#     "name" => "write",
+#     "args" => [
+#         {"name" => "lock", "type" => "PuppetUnit::Lock", "description" => "lock to serialize to file"},
+#         {"name" => "lockfile_path", "type" => "String", "description" => "file path to write lockfile"}
+#     ],
+#     "return" => [
+#         { "type" => "Integer", "description" => "the number of bytes written to file"}
+#     ],
+#     "exception" => [
+#         {
+#             "type" => "PuppetUnit::Exception::LockfileExists",
+#             "reason" => "If there is an existing lockfile at the path specified, but this is a really long description to test ok I hope this doesn't stop the formatter from printing correctly"
+#         }
+#     ],
+#     "description" => ["If there is an existing lockfile at the path specified,",
+#                       "but this is a really long description to test ok I hope this ",
+#                       "doesn't stop the formatter from If there is an existing lockfile ",
+#                       "at the path specified, but this is a really long description to",
+#                       "test ok I hope this doesn't stop the formatter from If there",
+#                       "is an existing lockfile at the path specified, but this is",
+#                       "a really long description to test ok I hope this doesn't stop",
+#                       "the formatter from my description my description my description",
+#                       " my description my description my description my description "
+#     ],
+#     "examples" => [
+#
+#     ] ,
+#     "author" => "thomasf1234",
+#     "since"  => "commit reference",
+#     "see" => ["some reference or url"]
+# }
+
+require "msig"
+
+method_doc_params_array = JSON.parse(File.read(ARGV[0]))["methods"]
+
+method_doc_params_array.each do |method_doc_params|
+  puts "METHOD #{method_doc_params["name"]}"
+  puts Msig::Generator.new(method_doc_params).generate
+  puts ""
+  puts ""
+end
